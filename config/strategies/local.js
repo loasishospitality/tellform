@@ -16,7 +16,7 @@ module.exports = function () {
 		function (username, password, done) {
 			User.findOne({
 				$or: [
-					{'username': username},
+					{'username': username.toLowerCase()},
 					{'email': username}
 				]
 			}, function (err, user) {

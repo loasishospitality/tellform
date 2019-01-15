@@ -20,7 +20,8 @@ var fs = require('fs'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
 	path = require('path'),
-	client = new raven.Client(config.DSN);
+	client = new raven.Client(config.DSN),
+	i18n = require('i18n');
 
 var mongoose = require('mongoose');
 
@@ -34,6 +35,18 @@ var configureSocketIO = function (app, db) {
 	// Return server object
 	return server;
 };
+
+var supportedLanguages = ['en', 'de', 'fr', 'it', 'es'];
+
+function containsAnySupportedLanguages(preferredLanguages){
+	for (var i = 0; i < preferredLanguages.length; i++) {
+		var currIndex = supportedLanguages.indexOf(preferredLanguages[i]);
+	    if (currIndex > -1) {
+	        return supportedLanguages[currIndex];
+	    }
+	}
+	return null;
+}
 
 module.exports = function(db) {
 	// Initialize express app
@@ -135,8 +148,6 @@ module.exports = function(db) {
 				// reassign url
 				req.url = subdomainPath;
 
-				req.userId = user._id;
-
 				// Q.E.D.
 				return next();
 			});
@@ -175,19 +186,37 @@ module.exports = function(db) {
 		level: 9
 	}));
 
+        //Setup i18n
+    i18n.configure({
+        locales: supportedLanguages,
+        directory: __dirname + '/locales',
+        defaultLocale: 'en',
+        cookie: 'userLang'
+    });
 
-	// Set swig as the template engine
-	app.engine('server.view.html', consolidate[config.templateEngine]);
+    app.use(i18n.init);
+
+    app.use(function(req, res, next) {
+        // express helper for natively supported engines
+        res.locals.__ = res.__ = function() {
+            return i18n.__.apply(req, arguments);
+        };
+
+        next();
+    });
+
+	// Set template engine as defined in the config files
+	app.engine('server.view.pug', consolidate.pug);
 
 	// Set views path and view engine
-	app.set('view engine', 'server.view.html');
+	app.set('view engine', 'server.view.pug');
 	app.set('views', './app/views');
 
 	// Enable logger (morgan)
 	app.use(morgan(logger.getLogFormat(), logger.getMorganOptions()));
 
 	// Environment dependent middleware
-	if (process.env.NODE_ENV === 'development') {
+	if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
 		// Disable views cache
 		app.set('view cache', false);
 	} else if (process.env.NODE_ENV === 'production') {
@@ -200,6 +229,7 @@ module.exports = function(db) {
 		extended: true,
 		limit: '100mb'
 	}));
+
 	app.use(bodyParser.json({ limit: '100mb' }));
 	app.use(methodOverride());
 
@@ -220,7 +250,6 @@ module.exports = function(db) {
 	app.use(cookieParser());
 
 	// Express MongoDB session storage
-
 	app.use(session({
 		saveUninitialized: true,
 		resave: true,
@@ -237,18 +266,40 @@ module.exports = function(db) {
 	app.use(passport.initialize());
 	app.use(passport.session());
 
+
+	//Visitor Language Detection
+	app.use(function(req, res, next) {
+		var acceptLanguage = req.headers['accept-language'];
+		var languages, supportedLanguage;
+
+		if(acceptLanguage){
+			languages = acceptLanguage.match(/[a-z]{2}(?!-)/g) || [];
+			supportedLanguage = containsAnySupportedLanguages(languages);
+		}
+
+		if(!req.user && supportedLanguage !== null){
+			var currLanguage = res.cookie('userLang');
+
+			if(currLanguage && currLanguage !== supportedLanguage || !currLanguage){
+				res.clearCookie('userLang');
+				res.cookie('userLang', supportedLanguage, { maxAge: 90000, httpOnly: true });
+			}
+		} else if(req.user && (!req.cookies.hasOwnProperty('userLang') || req.cookies['userLang'] !== req.user.language) ){
+			res.cookie('userLang', req.user.language, { maxAge: 90000, httpOnly: true });
+		}
+		next();
+	});
+
 	// Globbing routing files
 	config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {
 		require(path.resolve(routePath))(app);
 	});
 
-
 	// Add headers for Sentry
-
 	app.use(function (req, res, next) {
 
 	    // Website you wish to allow to connect
-	    res.setHeader('Access-Control-Allow-Origin', 'https://sentry.polydaic.com');
+	    res.setHeader('Access-Control-Allow-Origin', 'https://sentry.io');
 
 	    // Request methods you wish to allow
 	    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -280,16 +331,11 @@ module.exports = function(db) {
 		// Log it
 		client.captureError(err);
 
-		if(process.env.NODE_ENV === 'production'){
-			res.status(500).render('500', {
-	   		    error: 'Internal Server Error'
-        	});
-		} else { 
-			// Error page
-			res.status(500).render('500', {
-				error: err.stack
-			});
-		}
+		// Error page
+		res.status(500).render('500', {
+		    __: i18n.__,
+            error: err.stack
+		});
 	});
 
 	// Assume 404 since no middleware responded
@@ -297,7 +343,8 @@ module.exports = function(db) {
 		client.captureError(new Error('Page Not Found'));
 		res.status(404).render('404', {
 			url: req.originalUrl,
-			error: 'Not Found'
+			error: 'Not Found',
+            __: i18n.__
 		});
 	});
 

@@ -3,13 +3,12 @@ TellForm 2.1.0
 
 [![Build Status](https://travis-ci.org/tellform/tellform.svg?branch=master)](https://travis-ci.org/tellform/tellform)
 ![Project Status](https://img.shields.io/badge/status-2.1.0-green.svg)
-[![Code Climate](https://codeclimate.com/github/whitef0x0/tellform/badges/gpa.svg)](https://codeclimate.com/github/whitef0x0/tellform)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3491e86eb7194308b8fc80711d736ede)](https://www.codacy.com/app/david-baldwin/tellform?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=whitef0x0/tellform&amp;utm_campaign=Badge_Grade)
-[![Gitter](https://badges.gitter.im/whitef0x0/tellform.svg)](https://gitter.im/whitef0x0/tellform?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3491e86eb7194308b8fc80711d736ede)](https://www.codacy.com/app/david-baldwin/tellform?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tellform/tellform&amp;utm_campaign=Badge_Grade)
+[![Gitter](https://badges.gitter.im/tellform/Lobby.svg)](https://gitter.im/tellform/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 > An *opensource alternative to TypeForm* that can create [stunning mobile-ready forms](https://tellform.com/examples) , surveys and questionnaires.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/whitef0x0/tellform/tree/master)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tellform/tellform/tree/master)
 
 ## Table of Contents  
 
@@ -94,11 +93,11 @@ MAILER_FROM=user@domain.com
 # Use this for one of Nodemailer's pre-configured service providers
 MAILER_SERVICE_PROVIDER=SendGrid
 
-# Use these for a custom service provider 
+# Use these for a custom service provider
 # Note: MAILER_SMTP_HOST will override MAILER_SERVICE_PROVIDER
 MAILER_SMTP_HOST=smtp.domain.com
 MAILER_SMTP_PORT=465
-MAILER_SMTP_SECURE=true
+MAILER_SMTP_SECURE=TRUE
 
 ```
 
@@ -120,14 +119,7 @@ Your application should run on port 3000 or the port you specified in your .env 
 
 To deploy with docker, first install docker [here](https://docs.docker.com/engine/installation/).
 
-Then run these commands
-
-```
-$ docker run -p 27017:27017 -d --name some-mongo mongo
-$ docker run -p 127.0.0.1:6379:6379 -d --name some-redis redis
-$ docker run --rm -p 3000:3000 --link some-redis:redis-db --link some-mongo:db -e "SUBDOMAINS_DISABLED=TRUE" -e "DISABLE_CLUSTER_MODE=TRUE" -e "MAILER_EMAIL_ID=<YourEmailAPI_ID>" -e "MAILER_FROM=<noreply@yourdomain.com>" -e "MAILER_SERVICE_PROVIDER=<YourEmailAPIProvider>"  -e "MAILER_PASSWORD=<YourAPIKey>" -e "BASE_URL=localhost" -p 80:80 tellform/development
-```
-
+Then see this page [here](https://tellform.com/install_docker) for commands on how to deploy your own local TellForm instance.
 
 ## Testing Your Application
 You can run the full test suite included with TellForm with the test task:
@@ -202,7 +194,7 @@ TellForm's configuration is done with environment variables. To set an option fo
 
 ## Where to get help
 
-[Gitter Chat](https://gitter.im/whitef0x0/tellform)
+[Gitter Chat](https://gitter.im/tellform/Lobby)
 
 [Official Twitter](https://twitter.com/tellform_real)
 
@@ -212,24 +204,24 @@ TellForm's configuration is done with environment variables. To set an option fo
 Does your company use TellForm? Help keep the project bug-free and feature rich by [sponsoring the project](https://opencollective.com/tellform#sponsor).
 
 <a href="https://m.do.co/c/a86fd8843e09" style="padding: 30px 0">
-	<img src="/docs/readme_logos/do_logo.png" height="30px">
+	<img src="/docs/readme_logos/digitalOcean.png" height="30px">
 </a>
 <a href="https://getsentry.com/" style="padding: 30px 0">
-	<img src="/docs/readme_logos/sentry_logo.png" height="30px">
+	<img src="/docs/readme_logos/sentryIO.png" height="30px">
 </a>
 <a href="https://statuspage.io/" style="padding: 30px 0">
-	<img src="/docs/readme_logos/statuspage_logo.png" height="30px">
+	<img src="/docs/readme_logos/statusPageIO.png" height="30px">
 </a>
 <br><br>
 <a href="https://www.stickermule.com/unlock?ref_id=0939360701" style="padding: 30px 0">
-	<img src="/docs/readme_logos/stickermule_logo.png" height="30px">
+	<img src="/docs/readme_logos/stickerMule.png" height="30px">
 </a>
 <a href="https://sparkpost.com/" style="padding: 30px 0">
-	<img src="/docs/readme_logos/sparkpost_logo.png" height="30px">
+	<img src="/docs/readme_logos/sparkPost.png" height="30px">
 </a>
 
 <a href="https://therooststand.com/" style="padding: 30px 0">
-	<img src="/docs/readme_logos/roost_logo.png" height="30px">
+	<img src="/docs/readme_logos/theRoostStand.png" height="30px">
 </a>
 
 ## Backers
@@ -247,13 +239,11 @@ Love our work and community? [Become a backer](https://opencollective.com/tellfo
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars2.githubusercontent.com/u/1160417?v=3" width="100px;"/><br /><sub>David Baldwynn</sub>](http://baldwynn.me)<br />[💻](https://github.com/tellform/TellForm/commits?author=whitef0x0 "Code") [🔧](#tool-whitef0x0 "Tools") [🚇](#infra-whitef0x0 "Infrastructure (Hosting, Build-Tools, etc)") [📖](https://github.com/tellform/TellForm/commits?author=whitef0x0 "Documentation") [💡](#example-whitef0x0 "Examples") [🎨](#design-whitef0x0 "Design") [🔍](#fundingFinding-whitef0x0 "Funding Finding") [👀](#review-whitef0x0 "Reviewed Pull Requests") [⚠️](https://github.com/tellform/TellForm/commits?author=whitef0x0 "Tests") | [<img src="https://avatars2.githubusercontent.com/u/313117?v=3" width="100px;"/><br /><sub>Samuel Laulhau</sub>](https://samuellaulhau.fr)<br />[💻](https://github.com/tellform/TellForm/commits?author=lalop "Code") [🌍](#translation-lalop "Translation") | [<img src="https://avatars0.githubusercontent.com/u/313507?v=3" width="100px;"/><br /><sub>Arun Pattnaik</sub>](http://arun.co)<br />[🎨](#design-arunpattnaik "Design") | [<img src="https://avatars0.githubusercontent.com/u/5405744?v=3" width="100px;"/><br /><sub>Thiên Toán</sub>](https://toanalien.com)<br />[🐛](https://github.com/tellform/TellForm/issues?q=author%3Atoanalien "Bug reports") [💻](https://github.com/tellform/TellForm/commits?author=toanalien "Code") [📖](https://github.com/tellform/TellForm/commits?author=toanalien "Documentation") | [<img src="https://avatars2.githubusercontent.com/u/8615608?v=3" width="100px;"/><br /><sub>Adrian Portabales</sub>](https://github.com/AdrianP-)<br />[🐛](https://github.com/tellform/TellForm/issues?q=author%3AAdrianP- "Bug reports") [💻](https://github.com/tellform/TellForm/commits?author=AdrianP- "Code") | [<img src="https://avatars3.githubusercontent.com/u/8433587?v=3" width="100px;"/><br /><sub>Peter Thaleikis</sub>](https://github.com/spekulatius)<br />[📖](https://github.com/tellform/TellForm/commits?author=spekulatius "Documentation") | [<img src="https://avatars1.githubusercontent.com/u/1247388?v=3" width="100px;"/><br /><sub>Mickaël Andrieu</sub>](http://www.mickael-andrieu.com)<br />[📖](https://github.com/tellform/TellForm/commits?author=mickaelandrieu "Documentation") |
+| [<img src="https://avatars2.githubusercontent.com/u/1160417?v=3" width="100px;"/><br /><sub>David Baldwynn</sub>](http://baldwynn.me)<br />[💻](https://github.com/tellform/tellform/commits?author=whitef0x0 "Code") [🔧](#tool-whitef0x0 "Tools") [🚇](#infra-whitef0x0 "Infrastructure (Hosting, Build-Tools, etc)") [📖](https://github.com/tellform/tellform/commits?author=whitef0x0 "Documentation") [💡](#example-whitef0x0 "Examples") [🎨](#design-whitef0x0 "Design") [🔍](#fundingFinding-whitef0x0 "Funding Finding") [👀](#review-whitef0x0 "Reviewed Pull Requests") [⚠️](https://github.com/tellform/tellform/commits?author=whitef0x0 "Tests") | [<img src="https://avatars2.githubusercontent.com/u/313117?v=3" width="100px;"/><br /><sub>Samuel Laulhau</sub>](https://samuellaulhau.fr)<br />[💻](https://github.com/tellform/tellform/commits?author=lalop "Code") [🌍](#translation-lalop "Translation") | [<img src="https://avatars0.githubusercontent.com/u/313507?v=3" width="100px;"/><br /><sub>Arun Pattnaik</sub>](http://arun.co)<br />[🎨](#design-arunpattnaik "Design") | [<img src="https://avatars0.githubusercontent.com/u/5405744?v=3" width="100px;"/><br /><sub>Thiên Toán</sub>](https://toanalien.com)<br />[🐛](https://github.com/tellform/tellform/issues?q=author%3Atoanalien "Bug reports") [💻](https://github.com/tellform/tellform/commits?author=toanalien "Code") [📖](https://github.com/tellform/tellform/commits?author=toanalien "Documentation") | [<img src="https://avatars2.githubusercontent.com/u/8615608?v=3" width="100px;"/><br /><sub>Adrian Portabales</sub>](https://github.com/AdrianP-)<br />[🐛](https://github.com/tellform/tellform/issues?q=author%3AAdrianP- "Bug reports") [💻](https://github.com/tellform/tellform/commits?author=AdrianP- "Code") | [<img src="https://avatars3.githubusercontent.com/u/8433587?v=3" width="100px;"/><br /><sub>Peter Thaleikis</sub>](https://github.com/spekulatius)<br />[📖](https://github.com/tellform/tellform/commits?author=spekulatius "Documentation") | [<img src="https://avatars1.githubusercontent.com/u/1247388?v=3" width="100px;"/><br /><sub>Mickaël Andrieu</sub>](http://www.mickael-andrieu.com)<br />[📖](https://github.com/tellform/tellform/commits?author=mickaelandrieu "Documentation") |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [<img src="https://avatars1.githubusercontent.com/u/1522464?v=3" width="100px;"/><br /><sub>Ahmad Luqman</sub>](https://github.com/ahmad-luqman)<br />[📖](https://github.com/tellform/TellForm/commits?author=ahmad-luqman "Documentation") | [<img src="https://avatars0.githubusercontent.com/u/3691490?v=3" width="100px;"/><br /><sub>Peter Dave Hello</sub>](https://www.peterdavehello.org/)<br />[📖](https://github.com/tellform/TellForm/commits?author=PeterDaveHello "Documentation") |
+| [<img src="https://avatars1.githubusercontent.com/u/1522464?v=3" width="100px;"/><br /><sub>Ahmad Luqman</sub>](https://github.com/ahmad-luqman)<br />[📖](https://github.com/tellform/tellform/commits?author=ahmad-luqman "Documentation") | [<img src="https://avatars0.githubusercontent.com/u/3691490?v=3" width="100px;"/><br /><sub>Peter Dave Hello</sub>](https://www.peterdavehello.org/)<br />[📖](https://github.com/tellform/tellform/commits?author=PeterDaveHello "Documentation") |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 ## Mentions on the Web
-
-[Mister Ad](http://start.mister-ad.biz/newsticker/open-source-alternative-zu-typeform-tellform-in-der-kurzvorstellung/)
 
 [t3n.de](http://t3n.de/news/open-source-alternative-typeform-tellform-707295/)
 

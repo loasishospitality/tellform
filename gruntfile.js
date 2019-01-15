@@ -23,11 +23,11 @@ module.exports = function(grunt) {
 
 	// Unified Watch Object
 	var watchFiles = {
-		serverViews: ['app/views/**/*.*'],
+		serverViews: ['app/views/**/*.pug'],
 		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', '!app/tests/'],
 
 		clientViews: ['public/modules/**/*.html', 'public/form_modules/forms/base/**/*.html', '!public/modules/forms/base/**/*.html',],
-		clientJS: ['public/js/*.js', 'public/form_modules/**/*.js', 'public/modules/**/*.js'],
+		clientJS: ['public/form_modules/**/*.js', 'public/modules/**/*.js'],
 		clientCSS: ['public/modules/**/*.css'],
 
 		serverTests: ['app/tests/**/*.js'],
@@ -123,7 +123,7 @@ module.exports = function(grunt) {
 					compress: true
 				},
 				files: {
-					'public/dist/vendor.min.js': bowerArray
+					'public/dist/form-vendor.min.js': bowerArray
 				}
 			}
 		},
@@ -145,6 +145,10 @@ module.exports = function(grunt) {
 			}
 		},
 		ngAnnotate: {
+			options:{
+				add: true,
+				remove: true
+			},
 			production: {
 				files: {
 					'public/dist/application.js': '<%= applicationJavaScriptFiles %>',
@@ -291,7 +295,7 @@ module.exports = function(grunt) {
 			target: {
 				src: ['./scripts/setup.js']
 			}
-		}
+		},
 	});
 
 	grunt.event.on('coverage', function(lcov, done){
@@ -325,17 +329,14 @@ module.exports = function(grunt) {
     grunt.registerTask('coverage:server', ['env:test', 'mocha_istanbul:coverageServer']);
 
 	// Default task(s).
-	grunt.registerTask('default', ['lint', 'html2js:main', 'html2js:forms', 'env', 'concurrent:default']);
+	grunt.registerTask('default', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'html2js:main', 'html2js:forms', 'env', 'concurrent:default']);
 	grunt.registerTask('dev', ['lint', 'html2js:main',  'html2js:forms', 'env:dev', 'concurrent:default']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'html2js:main', 'html2js:forms', 'concurrent:debug']);
-
-	// Secure task(s).
-	grunt.registerTask('secure', ['env:secure', 'lint', 'html2js:main', 'html2js:forms', 'concurrent:default']);
-
+	
 	// Lint task(s).
-	grunt.registerTask('lint', ['jshint', 'csslint']);
+	grunt.registerTask('lint', ['jshint', 'csslint', 'i18nlint:client', 'i18nlint:server']);
 	grunt.registerTask('lint:tests', ['jshint:allTests']);
 
 	// Build task(s).

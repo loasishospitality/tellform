@@ -28,7 +28,7 @@ module.exports = {
 	socketPort: process.env.SOCKET_PORT || 20523,
 	socketPortExternallyVisible: (process.env.SOCKET_PORT_EXTERN_VISIBLE === 'TRUE'),
 
-	templateEngine: 'swig',
+	templateEngine: 'pug',
 
  	signupDisabled: (process.env.SIGNUP_DISABLED === 'TRUE'),
 	enableClusterMode: (process.env.ENABLE_CLUSTER_MODE === 'TRUE'),
@@ -40,7 +40,7 @@ module.exports = {
 		options: process.env.MAILER_SMTP_HOST ? { //Uses custom SMTP if MAILER_SMTP_HOST is set
 			host: process.env.MAILER_SMTP_HOST || '',
 			port: process.env.MAILER_SMTP_PORT || 465,
-			secure: process.env.MAILER_SMTP_SECURE || true,
+			secure: (process.env.MAILER_SMTP_SECURE === 'TRUE'),
 			auth: {
 				user: process.env.MAILER_EMAIL_ID || '',
 				pass: process.env.MAILER_PASSWORD || ''
